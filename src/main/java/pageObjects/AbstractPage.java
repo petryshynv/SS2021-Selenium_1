@@ -1,12 +1,15 @@
-package po;
+package pageObjects;
 
 import driver.DriverFactory;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 
 public class AbstractPage {
 
-    // private static WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), 20);
+    private WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), 20);
 
     AbstractPage() {
     }
@@ -16,12 +19,13 @@ public class AbstractPage {
     }
 
     WebElement getElement(By locator) {
-        //TODO LOG
-        //WebElement webElement.wait.
-        return (WebElement) this;
+        return DriverFactory.getDriver().findElement(locator);
     }
 
-    // ask really need try/catch
+    List<WebElement> getElements(By locator){
+        return DriverFactory.getDriver().findElements(locator);
+    }
+
     public boolean isDisplayed(By locator) {
         try {
             return DriverFactory
@@ -33,6 +37,3 @@ public class AbstractPage {
         }
     }
 }
-//
-//    void proceedToPage(final String url)(DriverFactory.getDriver().findElements(locator));
-//        }
