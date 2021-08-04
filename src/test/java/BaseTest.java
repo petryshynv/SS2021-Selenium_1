@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 public class BaseTest extends DriverFactory {
     private Logger LOG = Logger.getLogger(String.valueOf(BaseTest.class));
     private Test test;
+
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod(Method method){
         initDriver(Browsers.CHROME);

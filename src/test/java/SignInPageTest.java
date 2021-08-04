@@ -1,11 +1,8 @@
-import consts.Constants;
 import dataProviders.EmailValue;
 import org.testng.annotations.Test;
 import pageObjects.HomePage;
-import pageObjects.SignInPage;
 
-import static consts.Constants.email;
-import static consts.Constants.incorrecrPassword;
+import static consts.Constants.*;
 
 
 public class SignInPageTest extends BaseTest {
@@ -14,12 +11,11 @@ public class SignInPageTest extends BaseTest {
     public void verifyUserSuccessfullyLoggedIn() {
         new HomePage()
                 .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
-                .enterEmail(email)
+                .clickSignInButton()
+                .enterEmail(EMAIL)
                 .clickContinueButton()
-                .enterPassword(Constants.password)
-                .clickSignInButton();
+                .enterPassword(PASSWORD)
+                .proceedToHomePagePortal();
         new HomePage()
                 .isUserNameDisplayed();
     }
@@ -28,12 +24,11 @@ public class SignInPageTest extends BaseTest {
     public void verifyUserNotLoggedWithInvalidPassword() {
         new HomePage()
                 .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
-                .enterEmail(email)
-                .clickContinueButton()
-                .enterPassword(incorrecrPassword)
                 .clickSignInButton()
+                .enterEmail(EMAIL)
+                .clickContinueButton()
+                .enterPassword(INCORRECT_PASSWORD)
+                .proceedToHomePagePortal()
                 .verifyFailedLoginErrorMessageDisplayed();
     }
 
@@ -41,8 +36,7 @@ public class SignInPageTest extends BaseTest {
     public void verifyLoginWithIncorrectEmail(String value) {
         new HomePage()
                 .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
+                .clickSignInButton()
                 .enterEmail(value)
                 .verifyContinueButtonIsDisable();
     }
@@ -51,10 +45,8 @@ public class SignInPageTest extends BaseTest {
     public void verifyLoginWithValidEmail(String value) {
         new HomePage()
                 .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
+                .clickSignInButton()
                 .enterEmail(value)
                 .verifyContinueButtonIsEnable();
     }
-
 }

@@ -33,29 +33,21 @@ public class SignInPage extends AbstractPage {
         return this;
     }
 
-    public SignInPage clickSignInButton() {
+    public HomePage proceedToHomePagePortal() {
         getElement(signInButton).click();
         LOG.info("'Sign in' button clicked");
-        return new SignInPage();
+        return new HomePage();
     }
 
     public void verifyContinueButtonIsEnable() {
-        boolean enable = getElement(By.id("kc-login-next")).isEnabled();
+        boolean enable = getElement(continueButton).isEnabled();
         LOG.info("'Continue' button is enable");
         Assert.assertTrue(enable, "'Continue' button is disable");
     }
 
     public void verifyContinueButtonIsDisable() {
-        boolean enable = getElement(By.id("kc-login-next")).isEnabled();
+        boolean enable = getElement(continueButton).isEnabled();
         LOG.info("'Continue' button is disable");
         Assert.assertFalse(enable, "'Continue' button is enable");
     }
-
-
-    public void verifyFailedLoginErrorMessageDisplayed() {
-        boolean checkMessage = getDriver().getPageSource().contains("We can't find user with such credentials.");
-        LOG.info(String.format("Is 'Login Failed' error message displayed: '%s'", checkMessage));
-        Assert.assertTrue(checkMessage, "'Login Failed' error message is not displayed");
-    }
-
 }

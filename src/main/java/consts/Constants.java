@@ -13,7 +13,7 @@ public interface Constants {
     String BASE_URL = "https://training.by";
     String HOME_PAGE_URL = BASE_URL + "/#/Home";
 
-    String email = "vitaliypetr84@gmail.com";
-    String password = "Sambir_Test_12";
-    String incorrecrPassword = "Sambir_Test_11";
+    String EMAIL = "vitaliypetr84@gmail.com";
+    String PASSWORD = "Sambir_Test_12";
+    String INCORRECT_PASSWORD = "Sambir_Test_11";
 }

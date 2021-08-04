@@ -1,50 +1,52 @@
-import consts.Constants;
-import dataProviders.EmailValue;
 import org.testng.annotations.Test;
 import pageObjects.HomePage;
-import pageObjects.SignInPage;
-import pageObjects.TrainigPage;
+import pageObjects.TrainingPage;
 
-import static consts.Constants.email;
-import static consts.Constants.incorrecrPassword;
+import static consts.Constants.*;
 
 
 public class TrainingPageTest extends BaseTest {
 
-    @Test(description = "Verify proceed to 'Trainings' page.")
-    public void verifyUserProceedTrainingsPage() {
-        new HomePage()
-                .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
-                .enterEmail(email)
-                .clickContinueButton()
-                .enterPassword(Constants.password)
-                .clickSignInButton();
-        new TrainigPage()
-                .proceedTrainingPage()
-                .isDirectionsOfTrainingIsDisplayed();
-    }
-
     @Test(description = "Verify ‘Trainings’ search works properly with searching in ‘Skills’.")
-    public void verifySearchOnTrainingsPage() {
+    public void verifySearchOnTrainingsPageBySkills() {
         new HomePage()
                 .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
-                .enterEmail(email)
+                .clickSignInButton()
+                .enterEmail(EMAIL)
                 .clickContinueButton()
-                .enterPassword(Constants.password)
-                .clickSignInButton();
-        new TrainigPage()
+                .enterPassword(PASSWORD)
+                .proceedToHomePagePortal();
+        new TrainingPage()
                 .proceedTrainingPage()
+                .isTrainingPageDisplayed()
                 .scrollSearchField()
-                .clickSearchFieldAndClickBySkillsButton()
+                .clickSearchFieldsButton()
+                .clickBySkillsButton()
                 .clickCheckBoxJava()
                 .checkCoursesWithWordJava()
-                .clickCheckBoxJRuby()
-                .unClickCheckBoxJava()
+                .clickCheckBoxRuby()
+                .unClickCheckBoxByNameOfCourse()
                 .checkNoAvailableMessage();
+    }
 
+    @Test(description = "Verify ‘Trainings’ search works properly with searching in ‘Locations’.")
+    public void verifySearchOnTrainingsPageByLocations() {
+        new HomePage()
+                .proceedToHomePage()
+                .clickSignInButton()
+                .enterEmail(EMAIL)
+                .clickContinueButton()
+                .enterPassword(PASSWORD)
+                .proceedToHomePagePortal();
+        new TrainingPage()
+                .proceedTrainingPage()
+                .isTrainingPageDisplayed()
+                .scrollSearchField()
+                .clickIfButtonClearAllLocationsActive()
+                .clickSearchFieldsButton()
+                .clickButtonLocationUkraine()
+                .clickCheckBoxLocationLviv()
+                .areUkraineAndMultiLocationDisplayedSoftAssert()
+        ;
     }
 }

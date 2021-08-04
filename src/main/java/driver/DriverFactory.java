@@ -12,17 +12,6 @@ public class DriverFactory {
 
     private static WebDriver driver;
 
-//    private static final String FIREFOX_PROPERTY = "webdriver.gecko.driver";
-//    private static final String CHROME_PROPERTY = "webdriver.chrome.driver";
-//
-//    private static final String FIREFOX_PATH = "D:\\EpamTestAutomtion1\\src\\main\\resources\\geckodriver.exe";
-//    private static final String CHROME_PATH = "D:\\EpamTestAutomtion1\\src\\main\\resources\\chromedriver.exe";
-//
-//    private static final int IMPLICITY_WAIT_VALUE = 10;
-
-//    private static final String BASE_URL = "https://training.by";
-//    private static final String HOME_PAGE_URL = BASE_URL + "/#/Home";
-
     public enum Browsers {
         FIREFOX, CHROME
     }

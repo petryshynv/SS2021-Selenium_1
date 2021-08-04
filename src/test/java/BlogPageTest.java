@@ -1,27 +1,24 @@
-import consts.Constants;
 import org.testng.annotations.Test;
 import pageObjects.BlogPage;
 import pageObjects.HomePage;
-import pageObjects.SignInPage;
-import pageObjects.TrainigPage;
 
-import static consts.Constants.email;
+import static consts.Constants.*;
 
 
 public class BlogPageTest extends BaseTest {
 
     @Test(description = "Verify links on ‘Blog’ Page")
-    public void verifyUserProceedBlogPage() {
+    public void verifyLinksOnBlogPageAreVisible() {
+
         new HomePage()
                 .proceedToHomePage()
-                .clickSignInButton();
-        new SignInPage()
-                .enterEmail(email)
+                .clickSignInButton()
+                .enterEmail(EMAIL)
                 .clickContinueButton()
-                .enterPassword(Constants.password)
-                .clickSignInButton();
+                .enterPassword(PASSWORD)
+                .proceedToHomePagePortal();
         new BlogPage()
                 .proceedBlogPage()
-                .isLinksOfBlogIsDisplayed();
+                .areLinksDisplayedSoftAssert();
     }
 }
