@@ -1,6 +1,5 @@
 package pageObjects;
 
-import consts.NamesOfCourses;
 import driver.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -18,6 +17,13 @@ public class TrainingPage extends AbstractPage {
 
     private static final Logger LOG = Logger.getLogger(String.valueOf(TrainingPage.class));
 
+    private final String unClickCheckBoxCourse =
+            "//label[@class='location__not-active-label ng-binding location__location-active-label'][normalize-space()='%s']//span[@class='checkmark']";
+    private final String chekBoxCoursesButton =
+            "//label[@class='location__not-active-label ng-binding'][normalize-space()='%s']//span[@class='checkmark']";
+    private final String buttonCheckBoxLviv =
+            "//label[@class='location__not-active-label ng-binding'][normalize-space()='%s']//span[@class='checkmark']";
+
     private final By searchFieldElement = By.name("training-filter-input");
     private final By trainingAreaElement = By.xpath("//h1[@class='section-ui__title ng-binding']");
     private final By trainingListElement = By.xpath("//nav[@class='main-nav']//a[@class='topNavItem training click hover']");
@@ -25,22 +31,18 @@ public class TrainingPage extends AbstractPage {
     private final By directionsOfTrainingsElement = By.xpath("//div[@class='section-ui__title ng-binding']");
     private final By allJavaCourses = By.xpath("//div[@class='training-list__container training-list__desktop']//div[contains(text(), 'Java')]");
     private final By messageNoAvailableTraining = By.xpath("//span[text()='No training are available.']");
-
     private final By pageTrainingElement = By.xpath("//h1[@class='section-ui__title ng-binding']");
     private final By buttonClearAllLocations = By.xpath("//span[@class='filter-field__input-item-close-icon filter-field__input-item-close-icon--common']");
     private final By buttonLocationUkraine = By.xpath("//div[contains(text(),'Ukraine')]");
-    private final By buttonCheckBoxLviv =
-            By.xpath("//label[@class='location__not-active-label ng-binding'][normalize-space()='Lviv']//span[@class='checkmark']");
     private final By multiLocationElement = By.xpath
             ("//div[@class='training-list__container training-list__desktop']//div[@class='rd-tooltip-text training-item__location--text'][normalize-space()='Multi-location']");
-    private final By ukraineLocationElement  = By.xpath
+    private final By ukraineLocationElement = By.xpath
             ("//div[@class='training-list__container training-list__desktop']//span[@class='training-item__location--text ng-binding ng-scope']");
-
 
 
     public TrainingPage proceedTrainingPage() {
         getElement(trainingListElement).click();
-        LOG.info(String.format("Procceded to href 'Training List'"));
+        LOG.info("Procceded to link 'Training List'");
         return new TrainingPage();
     }
 
@@ -56,35 +58,23 @@ public class TrainingPage extends AbstractPage {
         return new TrainingPage();
     }
 
-    public WebElement findCourseByName(String courseName) {
-        return getElement(By.xpath
-                ("//label[@class='location__not-active-label ng-binding'][normalize-space()='"
-                        + courseName + "']//span[@class='checkmark']"));
-    }
-
-    public TrainingPage clickCheckBoxJava() {
-        findCourseByName(NamesOfCourses.JAVA.getCourse()).click();
-        LOG.info("checkbox 'Java' field clicked");
+    public TrainingPage clickCheckBoxJava(String course) {
+        getElement(By.xpath(String.format(chekBoxCoursesButton, course))).click();
+        LOG.info(String.format("checkbox '%s' field clicked", course));
         return new TrainingPage();
     }
 
-    public TrainingPage clickCheckBoxRuby() {
-        findCourseByName(NamesOfCourses.RUBY.getCourse()).click();
-        LOG.info("checkbox 'Java' field clicked");
+    public TrainingPage clickCheckBoxRuby(String course) {
+        getElement(By.xpath(String.format(chekBoxCoursesButton, course))).click();
+        LOG.info(String.format("checkbox '%s' field clicked", course));
         return new TrainingPage();
     }
 
-    public WebElement findActiveCheckBoxCourseByName(String courseName) {
-        return getElement(By.xpath
-                ("//label[@class='location__not-active-label ng-binding location__location-active-label'][normalize-space()='"
-                        + courseName + "']//span[@class='checkmark']"));
-    }
-
-    public TrainingPage unClickCheckBoxByNameOfCourse() {
-        WebElement element = findActiveCheckBoxCourseByName(NamesOfCourses.JAVA.getCourse());
+    public TrainingPage unClickCheckBoxByNameOfCourse(String course) {
+        WebElement element = getElement(By.xpath(String.format(unClickCheckBoxCourse, course)));
         actions.moveToElement(element);
         element.click();
-        LOG.info("checkbox 'Java' field unClicked");
+        LOG.info(String.format("checkbox '%s' field unClicked", course));
         return new TrainingPage();
     }
 
@@ -99,7 +89,7 @@ public class TrainingPage extends AbstractPage {
         LOG.info("'Search' field clicked");
         return new TrainingPage();
     }
-//todo log
+
     public TrainingPage checkCoursesWithWordJava() {
         getElements(allJavaCourses);
         LOG.info("Found all courses with 'Java'");
@@ -113,7 +103,7 @@ public class TrainingPage extends AbstractPage {
         Assert.assertEquals(getMessage, "No training are available.");
     }
 
-    public TrainingPage isTrainingPageDisplayed() {
+    public TrainingPage verifyTrainingPageDisplayed() {
         boolean isDisplayed = isDisplayed(pageTrainingElement);
         Assert.assertTrue(isDisplayed, "Training page is not displayed");
         LOG.info(String.format("Training page: '%s'", isDisplayed));
@@ -135,21 +125,21 @@ public class TrainingPage extends AbstractPage {
         return this;
     }
 
-    public TrainingPage clickCheckBoxLocationLviv() {
-        getElement(buttonCheckBoxLviv).click();
-        LOG.info("'Lviv' checkbox is clicked");
+    public TrainingPage clickCheckBoxLocationLviv(String city) {
+        getElement(By.xpath(String.format(buttonCheckBoxLviv, city))).click();
+        LOG.info(String.format("Checkbox '%s' is clicked", city));
         return this;
     }
 
-    public TrainingPage isLocationUkraineDisplayed() {
-        List<WebElement> ukraineLocation = getElements(multiLocationElement);
+    public TrainingPage verifyLocationUkraineDisplayed() {
+        List<WebElement> ukraineLocation = getElements(ukraineLocationElement);
         softAssert.assertTrue
                 (ukraineLocation.size() > 0, "Java courses not found");
         LOG.info(String.format("MultiLocation  is '%s'", ukraineLocation));
         return this;
     }
 
-    public TrainingPage isMultiLocationDisplayed() {
+    public TrainingPage verifyMultiLocationDisplayed() {
         List<WebElement> multiLocation = getElements(multiLocationElement);
         softAssert.assertTrue
                 (multiLocation.size() > 0, "Java courses not found");
@@ -158,7 +148,9 @@ public class TrainingPage extends AbstractPage {
     }
 
     public TrainingPage areUkraineAndMultiLocationDisplayedSoftAssert() {
-        softAssert.assertAll("All links are visible");
+        verifyMultiLocationDisplayed();
+        verifyLocationUkraineDisplayed();
+        softAssert.assertAll("Locations are not visible");
         return this;
     }
 

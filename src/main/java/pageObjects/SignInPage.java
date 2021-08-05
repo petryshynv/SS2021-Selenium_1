@@ -50,4 +50,11 @@ public class SignInPage extends AbstractPage {
         LOG.info("'Continue' button is disable");
         Assert.assertFalse(enable, "'Continue' button is enable");
     }
+
+    public boolean isFailedLoginErrorMessageDisplayed() {
+        boolean checkMessage = getDriver().getPageSource().contains("We can't find user with such credentials.");
+        LOG.info(String.format("Is 'Login Failed' error message displayed: '%s'", checkMessage));
+        //Assert.assertTrue(checkMessage, "'Login Failed' error message is not displayed");
+        return checkMessage;
+    }
 }

@@ -4,13 +4,15 @@ import org.testng.annotations.*;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
-public class BaseTest extends DriverFactory {
+import static consts.DriversConfigs.*;
+
+public class BaseTest {
     private Logger LOG = Logger.getLogger(String.valueOf(BaseTest.class));
     private Test test;
 
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod(Method method){
-        initDriver(Browsers.CHROME);
+       DriverFactory.initDriver(browsers.CHROME);
 
         LOG = Logger.getLogger(String.valueOf(method.getDeclaringClass()));
         test = method.getAnnotation(Test.class);
@@ -21,7 +23,7 @@ public class BaseTest extends DriverFactory {
     @AfterMethod(alwaysRun = true)
     public void afterMethod(final Method method){
         LOG.info(String.format("Test '%s' completed.", method.getName()));
-        quitDriver();
+        DriverFactory.quitDriver();
     }
 
 }

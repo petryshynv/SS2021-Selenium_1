@@ -6,46 +6,39 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-import static consts.Constants.*;
+import static consts.DriversConfigs.*;
+import static consts.DriversConfigs.browsers.*;
+import static consts.DriversConfigs.waitersValue.*;
 
 public class DriverFactory {
 
     private static WebDriver driver;
 
-    public enum Browsers {
-        FIREFOX, CHROME
-    }
-
-    private WebDriver createDriver(Browsers browser) {
+    private static void createDriver(browsers browser) {
         switch (browser) {
             case CHROME:
-                System.setProperty(CHROME_PROPERTY, CHROME_PATH);
+                System.setProperty(CHROME.getProperty(), CHROME.getPath());
                 driver = new ChromeDriver();
                 break;
             case FIREFOX:
-                System.setProperty(FIREFOX_PROPERTY, FIREFOX_PATH);
+                System.setProperty(FIREFOX.getProperty(), FIREFOX.getPath());
                 driver = new FirefoxDriver();
                 break;
-            default:
-                this.driver = null;
         }
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(IMPLICITY_WAIT_VALUE, TimeUnit.SECONDS);
-        return driver;
+        driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT_VALUE.getValue(), TimeUnit.SECONDS);
     }
 
     public static WebDriver getDriver() {
         return driver;
     }
 
-    public void initDriver(Browsers browser) {
-        if (this.driver == null) {
-            createDriver(browser);
-        }
+    public static void initDriver(browsers browser) {
+        createDriver(browser);
     }
 
-    protected void quitDriver() {
+    public static void quitDriver() {
         if (driver != null) {
             driver.quit();
             driver = null;
